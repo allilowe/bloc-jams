@@ -62,8 +62,12 @@ body {
 
    /* #5 */
  .links-container .navbar-link:hover {
-     color: rgb(233,50,117);
- }
+     color: rgb(233,50,117);}
+     .navbar-link:active {
+             color: rgb(233, 50, 117);
+             background-color: white;
+         }
+
 /* Medium and small screens (640px) */
  @media (min-width: 640px) {
      html { font-size: 112%; }  /* Style information will go here */
