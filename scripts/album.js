@@ -40,33 +40,7 @@ var albumPicasso = {
 
      return template;
  };
- var setCurrentAlbum = function(album) {
-     var findParentByClassName = function(element, targetClass) {
-         if (element) {
-             var currentParent = element.parentElement;
-             while (currentParent.className !== targetClass && currentparent.className !== null) {
-                 currentParent = currentParent.parentElement;
-             }
-             return currentparent;
-         }
-     };
-     var getSongItem = function(element) {
-         switch (element.className) {
-             case 'album-song-button':
-             case 'ion-play':
-             case 'ion-pause':
-                return findParentByClassName(element, 'song-item-number');
-            case 'album-view-song-item':
-                return element.querySelector('.song-item-number');
-                case 'song-item-title':
-                case 'song-item-duration':
-                    return findParentByClassName(element, 'album-view-song-item').querySelector('.song-item-number');
-                case 'song-item-number':
-                return element;
-                default:
-                return;
-         }
-     };
+var setCurrentAlbum = function (album) {
      // #1
      var albumTitle = document.getElementsByClassName('album-view-title')[0];
      var albumArtist = document.getElementsByClassName('album-view-artist')[0];
@@ -86,6 +60,34 @@ var albumPicasso = {
      // #4
      for (var i = 0; i < album.songs.length; i++) {
          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
+     }
+ };
+
+ var findParentByClassName = function(element, targetClass) {
+     if (element) {
+         var currentParent = element.parentElement;
+         while (currentParent.className !== targetClass && currentParent.className !== null) {
+             currentParent = currentParent.parentElement;
+         }
+         return currentParent;
+     }
+ };
+
+ var getSongItem = function(element) {
+     switch (element.className) {
+         case 'album-song-button':
+         case 'ion-play':
+         case 'ion-pause':
+            return findParentByClassName(element, 'song-item-number');
+        case 'album-view-song-item':
+            return element.querySelector('.song-item-number');
+            case 'song-item-title':
+            case 'song-item-duration':
+                return findParentByClassName(element, 'album-view-song-item').querySelector('.song-item-number');
+            case 'song-item-number':
+            return element;
+            default:
+            return;
      }
  };
 
@@ -116,7 +118,7 @@ var currentlyPlayingSong = null;
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
 
- songListContainer.addEventListener('mouseover', function(event) {
+     songListContainer.addEventListener('mouseover', function(event) {
          // #1
          if (event.target.parentElement.className === 'album-view-song-item') {
             var songItem = getSongItem(event.target);
@@ -125,17 +127,18 @@ var currentlyPlayingSong = null;
             }
          }
      });
+
      for (var i = 0; i < songRows.length; i++) {
         songRows[i].addEventListener('mouseleave', function(event) {
-        var songItem = getSongItem(event.target);
-        var songItemNumber = songItem.getAttribute('data-song-number');
+            var songItem = getSongItem(event.target);
+            var songItemNumber = songItem.getAttribute('data-song-number');
 
-        if (songItemNumber !== currentlyPlayingSong) {
-            songItem.innerHTML = songItemNumber;
+            if (songItemNumber !== currentlyPlayingSong) {
+                songItem.innerHTML = songItemNumber;
             }
         });
         songRows[i].addEventListener('click', function(event) {
             clickHandler(event.target);
          });
     }
-}
+};
